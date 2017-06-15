@@ -1,7 +1,8 @@
 module.exports = {
   db: {
-    HOST: 'localhost',
-    USER: '',
-    PASSWORD: '',
-  }
+    host: 'localhost',
+    user: '',
+    password: '',
+    database: 'blog',
+  },
 };
