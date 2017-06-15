@@ -1,4 +1,4 @@
-use blog;
+USE blog;
 
 CREATE TABLE `blog`.`essay` (
 	`id` tinyint(3) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT,
