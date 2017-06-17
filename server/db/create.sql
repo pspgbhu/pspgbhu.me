@@ -7,7 +7,7 @@ CREATE TABLE `blog`.`essay` (
 	`views` mediumint(9) NOT NULL DEFAULT '0',
 	`created_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`last_modified_time` timestamp NOT NULL ON UPDATE CURRENT_TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-	`tags` char(40) NOT NULL DEFAULT '',
+	`categories` char(40) NOT NULL DEFAULT '',
 	PRIMARY KEY (`id`),
 	INDEX `id` USING BTREE (id),
 	INDEX `views` USING BTREE (views),

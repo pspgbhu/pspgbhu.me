@@ -1,3 +1,7 @@
-module.exports = function (ctx, next) {
-  ctx.body = 'Hello World';
+const { getAll } = require('../models/essay');
+
+
+module.exports = async function (ctx) {
+  const content = await getAll();
+  ctx.body = content;
 };

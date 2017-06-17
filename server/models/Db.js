@@ -22,7 +22,7 @@ function dbQuery(sql, callback) {
         return;
       }
 
-      callback(null, res, fields);
+      callback(null, res);
       connection.release();
     });
   });
@@ -36,17 +36,13 @@ function db(sql) {
 
   return new Promise((resolve, reject) => {
 
-    dbQuery(sql, (err, res, fields) => {
+    dbQuery(sql, (err, res) => {
 
       if (err) {
         reject(err);
       }
 
-      const result = {
-        res,
-        fields,
-      };
-      resolve(result);
+      resolve(res);
     });
   });
 }

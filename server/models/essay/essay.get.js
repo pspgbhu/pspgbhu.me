@@ -1,14 +1,14 @@
-const db = require('./Db');
+const db = require('../Db');
 
 
 module.exports = {
 
   /**
-   *  Get one essay
+   *  Get all essay
    *  @return {Promise}
    */
 
-  async getOne() {
+  async getAll() {
     const sql = 'SELECT * FROM essay';
     const result = await db(sql);
     return result;
