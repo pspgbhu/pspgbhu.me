@@ -13,16 +13,16 @@ module.exports = {
     "no-restricted-syntax": ["off", "BinaryExpression[operator='in']"],
     "import/imports-first": 0,
     'import/no-dynamic-require': 0,
-    "no-unused-vars": 0,
+    "no-unused-vars": 1,
     "no-console": 0,
     "no-underscore-dangle": 0,
     "arrow-parens": 0,
     "no-param-reassign": 0,
-    "no-unused-expressions": 0,
     "padded-blocks": 0,
     "prefer-const": 1,
     "linebreak-style":0,
     "max-len":0,
     "no-shadow": ["error", { "allow": ["err", "error"] }],
+    "func-names": 0,
   }
 };

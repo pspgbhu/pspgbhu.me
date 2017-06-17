@@ -1,33 +1,55 @@
 const pool = require('../db/init');
 
-module.exports = class Db {
-  constructor(sql, callback) {
-    this.sql = sql;
-    this.callback = callback;
-    this._query();
-  }
+/**
+ *  query db
+ */
 
-  _query() {
-    const sql = this.sql;
-    const callback = this.callback;
+function dbQuery(sql, callback) {
 
-    pool.getConnection((err, connection) => {
+  pool.getConnection((err, connection) => {
+
+    if (err) {
+      callback(err);
+      connection.release();
+      return;
+    }
+
+    connection.query(sql, (err, res, fields) => {
+
       if (err) {
         callback(err);
         connection.release();
         return;
       }
 
-      connection.query(sql, (err, res, fields) => {
-
-        if (err) {
-          callback(err);
-          connection.release();
-          return;
-        }
-        callback(res, fields);
-        connection.release();
-      });
+      callback(null, res, fields);
+      connection.release();
     });
-  }
-};
+  });
+}
+
+/**
+ *  wrap to promise
+ */
+
+function db(sql) {
+
+  return new Promise((resolve, reject) => {
+
+    dbQuery(sql, (err, res, fields) => {
+
+      if (err) {
+        reject(err);
+      }
+
+      const result = {
+        res,
+        fields,
+      };
+      resolve(result);
+    });
+  });
+}
+
+
+module.exports = db;

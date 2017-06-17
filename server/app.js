@@ -1,15 +1,12 @@
 const Koa = require('koa');
+const api = require('./api');
+const port = require('./config').port;
 
 const app = new Koa();
 
-if (process.env.npm_lifecycle_event === 'start') {
-  process.env.NODE_ENV = 'production';
-} else {
-  process.env.NODE_ENV = 'development';
-}
+// 初始化路由中间件
+app.use(api.routes()).use(api.allowedMethods());
 
-app.use(ctx => {
-  ctx.body = 'Hellow World';
+app.listen(port, () => {
+  console.log(`Listening the t ${port}`);
 });
-
-app.listen(3000);
