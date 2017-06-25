@@ -1,7 +1,7 @@
 USE blog;
 
 CREATE TABLE `blog`.`essay` (
-	`id` tinyint(9) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT,
+	`id` int(9) ZEROFILL NOT NULL AUTO_INCREMENT,
 	`title` char(30) NOT NULL DEFAULT '',
 	`content` text DEFAULT NULL,
 	`views` mediumint(9) NOT NULL DEFAULT '0',
@@ -16,16 +16,16 @@ CREATE TABLE `blog`.`categories` (
 	`id` int(9) NOT NULL AUTO_INCREMENT,
 	`name` varchar(20) NOT NULL,
 	PRIMARY KEY (`id`)
-) ENGINE=`InnoDB`;
+) ENGINE=`InnoDB` AUTO_INCREMENT=1;
 
 
-CREATE TABLE `blog`.`essay_categories` (
-	`id` int(9) NOT NULL,
+CREATE TABLE `blog`.`e_c` (
+	`id` int(9) NOT NULL AUTO_INCREMENT,
 	`essay_id` int(9) NOT NULL,
 	`category_id` int(9) NOT NULL,
 	PRIMARY KEY (`id`),
-	CONSTRAINT `essay_id_fk` FOREIGN KEY (`essay_id`) REFERENCES `blog`.`essay` (`id`)   ON UPDATE CASCADE ON DELETE CASCADE,
-	CONSTRAINT `category_id_fk` FOREIGN KEY (`category_id`) REFERENCES `blog`.`categories` (`id`)   ON UPDATE CASCADE ON DELETE CASCADE,
-	INDEX `essay_id` USING BTREE (essay_id),
-	INDEX `category_id` USING BTREE (category_id)
-) ENGINE=`InnoDB`;
+	FOREIGN KEY (`essay_id`) REFERENCES `blog`.`essay` (`id`)   ON UPDATE CASCADE ON DELETE CASCADE,
+	FOREIGN KEY (`category_id`) REFERENCES `blog`.`categories` (`id`)   ON UPDATE CASCADE ON DELETE CASCADE,
+	INDEX  USING BTREE (essay_id),
+	INDEX  USING BTREE (category_id)
+) ENGINE=`InnoDB` AUTO_INCREMENT=1;
