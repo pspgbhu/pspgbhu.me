@@ -1,32 +1,70 @@
-'use strict';
-
 const path = require('path');
-const args = require('minimist')(process.argv.slice(2));
+const webpack = require('webpack');
 
-// List of allowed environments
-const allowedEnvs = ['dev', 'dist', 'test'];
+const NODE_ENV = process.env.NODE_ENV;
+const CONFIG_ENV = NODE_ENV === 'production' ? 'prod' : 'dev';
 
-// Set the correct environment
-let env;
-if (args._.length > 0 && args._.indexOf('start') !== -1) {
-  env = 'test';
-} else if (args.env) {
-  env = args.env;
+let webpackConfig = null;
+const baseConfig = {
+  entry: './src/app.js',
+
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'dist/[name].js',
+    publicPath: '',
+  },
+
+  resolve: {
+    extensions: ['.js', '.jsx'],
+    alias: {
+      components: path.resolve(__dirname, 'src') + '/components/',
+      config: path.resolve(__dirname, 'src') + '/components/' + CONFIG_ENV,
+    },
+  },
+
+  module: {
+    rules: [
+      {
+        test: /\.(js|jsx)$/,
+        use: ['babel-loader'],
+        exclude: /node_modules/,
+      }
+    ],
+  },
+
+  devServer: {
+    port: 8123,
+  },
+
+  plugins: [],
+};
+
+if (NODE_ENV === 'development') {
+  Array.prototype.push.apply(baseConfig.plugins, [
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: '"development"',
+      },
+    }),
+  ]);
+
+  webpackConfig = webpackConfig = Object.assign(baseConfig, {});
+
 } else {
-  env = 'dev';
-}
-process.env.REACT_WEBPACK_ENV = env;
+  Array.prototype.push.apply(baseConfig.plugins, [
+    new webpack.optimize.UglifyJsPlugin(),
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: '"production"',
+      },
+    }),
+  ]);
 
-/**
- * Build the webpack configuration
- * @param  {String} wantedEnv The wanted environment
- * @return {Object} Webpack config
- */
-function buildConfig(wantedEnv) {
-  let isValid = wantedEnv && wantedEnv.length > 0 && allowedEnvs.indexOf(wantedEnv) !== -1;
-  let validEnv = isValid ? wantedEnv : 'dev';
-  let config = require(path.join(__dirname, 'cfg/' + validEnv));
-  return config;
+  webpackConfig = Object.assign(baseConfig, {
+    devtool: 'source-map',
+  });
 }
 
-module.exports = buildConfig(env);
+
+module.exports = webpackConfig;
+
