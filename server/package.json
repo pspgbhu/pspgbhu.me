@@ -5,19 +5,27 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js",
-    "dev": "node app.js"
+    "prd": "pm2 start bin/www",
+    "dev": "nodemon bin/www"
   },
   "author": "pspgbhu",
   "license": "ISC",
   "dependencies": {
     "koa": "^2.2.0",
+    "koa-bodyparser": "^4.2.0",
+    "koa-ejs": "^4.1.0",
+    "koa-json": "^2.0.2",
+    "koa-logger": "^3.0.1",
+    "koa-onerror": "^3.1.0",
     "koa-router": "^7.2.0",
+    "koa-static": "^4.0.1",
+    "koa-views": "^6.0.2",
     "mysql": "^2.13.0"
   },
   "devDependencies": {
     "eslint": "^4.0.0",
     "eslint-config-airbnb-base": "^11.2.0",
-    "eslint-plugin-import": "^2.3.0"
+    "eslint-plugin-import": "^2.3.0",
+    "nodemon": "^1.11.0"
   }
 }

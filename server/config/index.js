@@ -1,4 +1,4 @@
-process.env.NODE_ENV = process.env.npm_lifecycle_event === 'start'
+process.env.NODE_ENV = process.env.npm_lifecycle_event === 'prd'
   ? 'production'
   : 'development';
 
