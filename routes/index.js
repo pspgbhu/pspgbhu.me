@@ -10,7 +10,7 @@ router
     });
   })
 
-  .get('/essay', essayGet)
+  .get('/api/articleList', essayGet)
 ;
 
 module.exports = router;
