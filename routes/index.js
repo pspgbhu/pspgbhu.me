@@ -1,5 +1,5 @@
 const Router = require('koa-router');
-const essayGet = require('../controller/essay.get');
+const { getAllArticles } = require('../controller/articles.get');
 
 const router = new Router();
 
@@ -10,7 +10,7 @@ router
     });
   })
 
-  .get('/api/articleList', essayGet)
+  .get('/api/articlesList', getAllArticles)
 ;
 
 module.exports = router;

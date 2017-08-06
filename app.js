@@ -27,6 +27,14 @@ app.use(views(path.join(__dirname, 'views'), {
   extension: 'ejs',
 }));
 
+// Add 'Access-Control-Allow-Origin'
+app.use(async (ctx, next) => {
+  ctx.set({
+    'Access-Control-Allow-Origin': 'http://localhost:8111',
+  });
+  await next();
+})
+
 // logger
 app.use(async (ctx, next) => {
   const start = new Date();

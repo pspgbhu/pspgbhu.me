@@ -16,6 +16,7 @@ module.exports = {
     "no-unused-vars": 1,
     "no-console": 0,
     "no-underscore-dangle": 0,
+    "no-use-before-define": ["error", { "functions": false, "classes": false }],
     "arrow-parens": 0,
     "no-param-reassign": 0,
     "padded-blocks": 0,

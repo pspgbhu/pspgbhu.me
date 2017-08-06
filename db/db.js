@@ -1,4 +1,8 @@
-const pool = require('../db/init');
+const mysql = require('mysql');
+const CONFIG = require('../config').db;
+
+const pool = mysql.createPool(CONFIG);
+
 
 /**
  *  query db
