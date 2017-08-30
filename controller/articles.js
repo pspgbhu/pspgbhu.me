@@ -1,5 +1,8 @@
+const markdown = require('markdown').markdown;
+
 const { articlesList, article } = require('../models/articles');
 const { Res, resProxy } = require('../utils');
+
 
 exports.getArticlesList = async function (ctx) {
   let data;
@@ -15,6 +18,7 @@ exports.getArticlesList = async function (ctx) {
   ctx.body = res;
 };
 
+//
 exports.getArticle = async function (ctx) {
   if (!ctx.query.id) {
     ctx.body = resProxy(-1);
@@ -30,6 +34,14 @@ exports.getArticle = async function (ctx) {
     res = resProxy({ data });
   } catch (error) {
     res = resProxy(2);
+  }
+
+  // 查询成功时，有服务端转 markdown 为 html 添加进 response 中
+  if (res.code === 0) {
+    for (let i = 0; i < res.data.length; i += 1) {
+      const content = res.data[i].content;
+      res.data[i].htmlContent = markdown.toHTML(content);
+    }
   }
 
   ctx.body = res;
