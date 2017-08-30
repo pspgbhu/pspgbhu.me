@@ -1,11 +1,14 @@
 const Koa = require('koa');
 const path = require('path');
+
+// middleware
 const serve = require('koa-static');
 const views = require('koa-views');
 const json = require('koa-json');
 const onerror = require('koa-onerror');
 const bodyparser = require('koa-bodyparser');
 const logger = require('koa-logger');
+const cors = require('./middleware/cors');
 
 // router
 const index = require('./routes/index');
@@ -28,12 +31,7 @@ app.use(views(path.join(__dirname, 'views'), {
 }));
 
 // Add 'Access-Control-Allow-Origin'
-app.use(async (ctx, next) => {
-  ctx.set({
-    'Access-Control-Allow-Origin': 'http://localhost:8111',
-  });
-  await next();
-})
+app.use(cors());
 
 // logger
 app.use(async (ctx, next) => {
