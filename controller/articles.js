@@ -1,15 +1,18 @@
 const markdown = require('markdown').markdown;
 
-const { articlesList, article } = require('../models/articles');
+const { getArticlesList, getArticle, updateViews } = require('../models/articles');
 const { Res, resProxy } = require('../utils');
 
+/**
+ * To get Articles List
+ */
 
 exports.getArticlesList = async function (ctx) {
   let data;
   let res;
 
   try {
-    data = await articlesList();
+    data = await getArticlesList();
     res = resProxy({ data });
   } catch (error) {
     res = resProxy(2);
@@ -18,7 +21,10 @@ exports.getArticlesList = async function (ctx) {
   ctx.body = res;
 };
 
-//
+/**
+ * To get Article single or multiple
+ */
+
 exports.getArticle = async function (ctx) {
   if (!ctx.query.id) {
     ctx.body = resProxy(-1);
@@ -30,7 +36,8 @@ exports.getArticle = async function (ctx) {
   const ids = Array.from(new Set([...ctx.query.id]));
 
   try {
-    data = await article(ids);
+    await updateViews(ids);
+    data = await getArticle(ids);
     res = resProxy({ data });
   } catch (error) {
     res = resProxy(2);
@@ -45,4 +52,12 @@ exports.getArticle = async function (ctx) {
   }
 
   ctx.body = res;
+};
+
+/**
+ * To post an article
+ */
+
+exports.postArticle = async function (ctx) {
+
 };

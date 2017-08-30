@@ -3,39 +3,54 @@ const mysql = require('mysql');
 const db = require('../../db');
 const { addYearLastPost } = require('../../utils');
 
-module.exports = {
 
-  /**
-   *  Get all article
-   */
+/**
+ * To get all article
+ */
 
-  async allArticles() {
-    const data = await db('SELECT * FROM articles');
-    return addYearLastPost(data);
-  },
+exports.getAllArticles = async () => {
+  const data = await db('SELECT * FROM articles');
+  return addYearLastPost(data);
+};
 
-  /**
-   * Get Articles List
-   */
+/**
+ * To get Articles List
+ */
 
-  async articlesList() {
-    const data = await db('SELECT id, title, created_time FROM articles');
-    return addYearLastPost(data);
-  },
+exports.getArticlesList = async () => {
+  const data = await db('SELECT id, title, created_time FROM articles');
+  return addYearLastPost(data);
+};
 
-  /**
-   * Get Article single or multiple
-   */
+/**
+ * To get Article single or multiple
+ */
 
-  async article(...ids) {
-    if (ids.length === 0) {
-      return false;
-    }
-    const escapedIds = ids.map(item => mysql.escape(item));
-    const sql = `SELECT * FROM articles
-      WHERE id in (${ids.join(',')})`;
+exports.getArticle = async (...ids) => {
+  if (ids.length === 0) {
+    return false;
+  }
+  const escapedIds = ids.map(item => mysql.escape(item));
+  const sql = `SELECT * FROM articles
+    WHERE id in (${ids.join(',')})`;
 
-    const data = await db(sql);
-    return data;
-  },
+  const data = await db(sql);
+  return data;
+};
+
+/**
+ * To update article views number
+ */
+
+exports.updateViews = async (...ids) => {
+  const sql = `UPDATE articles SET views = views + 1 WHERE id IN (${ids.join(',')})`;
+  await db(sql);
+};
+
+/**
+ * To post an article
+ */
+
+exports.postArticle = async ({ title, content }) => {
+
 };
