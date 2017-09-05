@@ -4,6 +4,7 @@ CREATE TABLE `blog`.`articles` (
 	`id` int(4) ZEROFILL NOT NULL AUTO_INCREMENT,
 	`title` char(30) NOT NULL,
 	`content` text NOT NULL,
+    `categories` char(100) NOT NULL,
 	`views` mediumint(9) NOT NULL DEFAULT '0',
 	`created_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`last_modified_time` timestamp NOT NULL ON UPDATE CURRENT_TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

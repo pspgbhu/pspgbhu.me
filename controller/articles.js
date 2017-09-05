@@ -1,7 +1,13 @@
 const markdown = require('markdown').markdown;
+const { Res } = require('../utils');
 
-const { getArticlesList, getArticle, updateViews } = require('../models/articles');
-const { Res, resProxy } = require('../utils');
+const {
+  getArticlesList,
+  getArticle,
+  updateViews,
+  createArticle,
+} = require('../models/articles');
+
 
 /**
  * To get Articles List
@@ -13,9 +19,9 @@ exports.getArticlesList = async function (ctx) {
 
   try {
     data = await getArticlesList();
-    res = resProxy({ data });
+    res = Res({ data });
   } catch (error) {
-    res = resProxy(2);
+    res = Res(2);
   }
 
   ctx.body = res;
@@ -27,7 +33,7 @@ exports.getArticlesList = async function (ctx) {
 
 exports.getArticle = async function (ctx) {
   if (!ctx.query.id) {
-    ctx.body = resProxy(-1);
+    ctx.body = Res(-1);
     return;
   }
 
@@ -38,9 +44,9 @@ exports.getArticle = async function (ctx) {
   try {
     await updateViews(ids);
     data = await getArticle(ids);
-    res = resProxy({ data });
+    res = Res({ data });
   } catch (error) {
-    res = resProxy(2);
+    res = Res(2);
   }
 
   // 查询成功时，有服务端转 markdown 为 html 添加进 response 中
@@ -58,6 +64,15 @@ exports.getArticle = async function (ctx) {
  * To post an article
  */
 
-exports.postArticle = async function (ctx) {
+exports.createArticle = async (ctx) => {
+  let res;
+  const { title, content = '', categories = '' } = ctx.request.body;
+
+  // 过滤 title 参数
+  if (title === undefined) {
+    ctx.body = Res({ code: 1, message: 'title 不能为空' });
+    return;
+  }
+
 
 };

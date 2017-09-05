@@ -51,6 +51,31 @@ exports.updateViews = async (...ids) => {
  * To post an article
  */
 
-exports.postArticle = async ({ title, content }) => {
+exports.createArticle = async ({ title, content, categories }) => {
+  const sql = `
+  INSERT INTO articles
+    (title, content, categories)
+    VALUES
+    (${title}, ${content}, ${categories});
+  `;
+  await db(sql);
+};
 
+/**
+ * To Update an article
+ */
+
+exports.UpdateArticle = async (param) => {
+  const { id, title, content, categories } = param;
+  const setSQL = [];
+
+  for (const key in param) {
+    if (Object.prototype.hasOwnProperty.call(param)) {
+      const value = param[key];
+      setSQL.push(`SET ${key} = ${value}`);
+    }
+  }
+
+  const sql = `UPDATE articles ${setSQL.join(',')};`;
+  await db(sql);
 };

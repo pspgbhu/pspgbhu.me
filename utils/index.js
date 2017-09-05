@@ -28,11 +28,20 @@ exports.hasInArr = (target, arr) =>
  * Object: 会被作为整个 res 对象，但是不需要传入所有 res 应有的属性，
  * 比如传入 { data: 1 } 回返回 { code: 0, message: '成功', data: 1 }
  * 自动补全了 code 和 message 属性。
- *
  */
-exports.resProxy = function resProxy(r) {
+/**
+ * code 码所代表的含义应该一致，这样便于在客户端快速定位服务端问题。
+ * 因此在此处定义一下 code 码及其对应的含义。
+ *
+ * code           means
+ *  0             成功
+ *  -1            所有的未知错误都应默认为 -1
+ *  1             缺少参数，或者传入的参数不正确
+ *  2             操作数据库失败
+ */
+exports.Res = function Res(r) {
   if (!exports.hasInArr(typeof r, ['string', 'number', 'object'])) {
-    throw new Error('Function resProxy got an incorrect type param');
+    throw new Error('Function Res got an incorrect type param');
   }
 
   let code;
