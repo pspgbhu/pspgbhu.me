@@ -20,8 +20,10 @@ exports.hasInArr = (target, arr) =>
 /**
  * 根据传入参数类型的不同，函数会作出不同的反应：
  *
- * Number: 会被作为 code 值。例如传入 0，函数会返回 { code: 0, data: {}, message: '成功' }
- * 传入 1，函数会返回 { code: 1, data: {}, message: '无效参数' }
+ * Number: 会被作为 code 值。例如:
+ *    0，函数会返回 { code: 0, data: {}, message: '成功' }
+ *    1，函数会返回 { code: 1, data: {}, message: '无效参数' }
+ *    2，函数会返回 { code: 2, data: {}, message: '数据查询异常' }
  *
  * String: 会被作为 message 值。返回 { code: 0, data: {}, message: String }
  *
