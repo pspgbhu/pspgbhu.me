@@ -41,9 +41,11 @@ exports.hasInArr = (target, arr) =>
  *  1             缺少参数，或者传入的参数不正确
  *  2             操作数据库失败
  */
-exports.Res = function Res(r) {
+exports.Res = function Res(p) {
+  const r = p === undefined ? 1 : p;
+
   if (!exports.hasInArr(typeof r, ['string', 'number', 'object'])) {
-    throw new Error('Function Res got an incorrect type param');
+    throw new Error('[utils >>> Res] Got an incorrect type param');
   }
 
   let code;
