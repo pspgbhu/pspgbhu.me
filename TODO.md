@@ -1,17 +1,22 @@
 
-* [ ] 规划数据库表，文章和标签，多对多
-* [ ] 查询所有文章列表（标题，两个时间，简介，views，id）
-  - GET: /article
-* [ ] 查询一篇文章（标题，两个时间，内容，views，id）
-  - GET: /article?title=
-  - GET: /article?id=
-* [ ] 添加一篇文章（标题，内容，简介, 分类）
-  - POST: /article
-* [ ] 更新一篇文章
-  - PATCH: /article?id=
-* [ ] 删除一篇文章（id）
-  - DELETE: /article?id=
-* [ ] 文章分类
-  - /article/categories
-* [ ] 留言功能
-* [ ]
+# Todo List
+
+* [ ] 文章增删改查
+  * [ ] 
+* [ ] 上传图片
+* [ ] 登录态
+* [ ] 草稿系统
+  * [ ] 编辑自动保存草稿
+  * [ ] 可以手动放弃草稿
+  * [ ] 发表草稿后自动删除对应草稿
+* [ ] 留言
+  * [ ] 内容，绰号，联系方式
+  * [ ] 可记住用户绰号和联系方式
+  * [ ] 可以收到回复邮件，注意退订
+
+* [ ] status code
+  * [ ] 1 === success
+  * [ ] 0 === error, loss param
+  * [ ] 2 === operate database failed
+  * [ ] -1 === unknown error
+
