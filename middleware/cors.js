@@ -1,6 +1,6 @@
 module.exports = () => async (ctx, next) => {
   ctx.set({
-    'Access-Control-Allow-Origin': 'http://localhost:8111',
+    'Access-Control-Allow-Origin': ctx.request.header.origin,
   });
   await next();
 };
