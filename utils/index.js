@@ -42,7 +42,7 @@ exports.hasInArr = (target, arr) =>
  *  2             操作数据库失败
  */
 exports.Res = function Res(p) {
-  const r = p === undefined ? 1 : p;
+  const r = p === undefined ? 0 : p;
 
   if (!exports.hasInArr(typeof r, ['string', 'number', 'object'])) {
     throw new Error('[utils >>> Res] Got an incorrect type param');
@@ -97,4 +97,12 @@ exports.Res = function Res(p) {
   }
 
   return res;
+};
+
+
+exports.Log = function (scope) {
+  this.scope = scope;
+  this.log = function (...p) {
+    console.log(`[${scope} >>> ${p.shift()}] `, ...p, '\n');
+  };
 };
