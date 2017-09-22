@@ -1,5 +1,11 @@
 const Router = require('koa-router');
-const { getArticlesList, getArticle, createArticle } = require('../controller/articles');
+const {
+  getArticlesList,
+  getArticle,
+  createArticle,
+  updateArticle,
+  deleteArticle,
+} = require('../controller/articles');
 
 const router = new Router();
 
@@ -32,7 +38,22 @@ router
    * @param content
    * @param tag
    */
-  .post('/api/createArticle', createArticle);
+  .post('/api/createArticle', createArticle)
+
+  /**
+   * Update an article
+   *
+   * @param id
+   * @param anyUpdateProp
+   */
+  .post('/api/updateArticle', updateArticle)
+
+  /**
+   * Update an article
+   *
+   * @param id
+   */
+  .post('/api/deleteArticle', deleteArticle);
 ;
 
 module.exports = router;

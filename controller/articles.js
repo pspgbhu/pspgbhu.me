@@ -1,13 +1,15 @@
 const markdown = require('markdown').markdown;
-const { Res } = require('../utils');
-
+const { Res, Log } = require('../utils');
 const {
   getArticlesList,
   getArticle,
-  updateViews,
   createArticle,
+  updateViews,
+  updateArticle,
+  deleteArticle,
 } = require('../models/articles');
 
+const log = new Log('controller').log;
 
 /**
  * To get Articles List
@@ -20,7 +22,8 @@ exports.getArticlesList = async function (ctx) {
   try {
     data = await getArticlesList();
     res = Res({ data });
-  } catch (error) {
+  } catch (e) {
+    console.log(e);
     res = Res(2);
   }
 
@@ -37,26 +40,18 @@ exports.getArticle = async function (ctx) {
     return;
   }
 
-  let data;
-  let res;
   const ids = Array.from(new Set([...ctx.query.id]));
 
   try {
     await updateViews(ids);
-    data = await getArticle(ids);
-    res = Res({ data });
-  } catch (error) {
-    res = Res(2);
+  } catch (e) {
+    console.log(e);
+    ctx.body = Res(2);
+    return;
   }
 
-  // 查询成功时，有服务端转 markdown 为 html 添加进 response 中
-  if (res.code === 0) {
-    for (let i = 0; i < res.data.length; i += 1) {
-      const content = res.data[i].content;
-      res.data[i].htmlContent = markdown.toHTML(content);
-    }
-  }
-
+  const data = await getArticle(ids);
+  const res = Res({ data });
   ctx.body = res;
 };
 
@@ -65,8 +60,7 @@ exports.getArticle = async function (ctx) {
  */
 
 exports.createArticle = async (ctx) => {
-  let res;
-  const { title, content = '', categories = '' } = ctx.request.body;
+  const { title, content, categories } = ctx.request.body;
 
   // 过滤 title 参数
   if (title === undefined) {
@@ -74,5 +68,64 @@ exports.createArticle = async (ctx) => {
     return;
   }
 
+  log('createArticle', `
+    title === ${title}
+    content === ${content}
+    categories === ${categories}`);
 
+  try {
+    await createArticle({ title, content, categories });
+    console.log(123123123);
+  } catch (e) {
+    console.log(e);
+    ctx.body = Res(2);
+    return;
+  }
+
+  ctx.body = Res();
+};
+
+/**
+ * Update an article
+ */
+
+exports.updateArticle = async (ctx) => {
+  const { id, title, content, categories } = ctx.request.body;
+
+  if (id === undefined) {
+    ctx.body = Res({ code: 1, message: '缺少 id 参数' });
+  }
+
+  try {
+    await updateArticle({ id, title, content, categories });
+  } catch (e) {
+    log('updateArticle', e);
+    ctx.body = Res(2);
+    return;
+  }
+
+  ctx.body = Res();
+};
+
+/**
+ * Delete an article
+ */
+
+exports.deleteArticle = async (ctx) => {
+  const { id } = ctx.request.body;
+
+  if (id === undefined) {
+    ctx.body = Res(1);
+    return;
+  }
+
+  try {
+    await deleteArticle(id);
+  } catch (e) {
+    console.log(e);
+    ctx.body = Res({ code: 2, message: e.message });
+    return;
+  }
+
+  ctx.body = Res();
 };
