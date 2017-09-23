@@ -11,7 +11,7 @@ const logger = require('koa-logger');
 const cors = require('./middleware/cors');
 
 // router
-const index = require('./routes/index');
+const route = require('./routes/index');
 
 const app = new Koa();
 
@@ -42,6 +42,9 @@ app.use(async (ctx, next) => {
 });
 
 // router
-app.use(index.routes(), index.allowedMethods());
+app
+  .use(route.routes())
+  .use(route.allowedMethods());
+;
 
 module.exports = app;

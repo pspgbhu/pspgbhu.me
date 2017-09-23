@@ -75,7 +75,6 @@ exports.createArticle = async (ctx) => {
 
   try {
     await createArticle({ title, content, categories });
-    console.log(123123123);
   } catch (e) {
     console.log(e);
     ctx.body = Res(2);
