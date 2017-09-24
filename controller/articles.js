@@ -1,5 +1,8 @@
-const markdown = require('markdown').markdown;
-const { Res, Log } = require('../utils');
+const {
+  Res,
+  Log,
+  reformatArticlesList,
+} = require('../utils');
 const {
   getArticlesList,
   getArticle,
@@ -17,16 +20,14 @@ const log = new Log('controller').log;
 
 exports.getArticlesList = async function (ctx) {
   let data;
-  let res;
-
   try {
     data = await getArticlesList();
-    res = Res({ data });
   } catch (e) {
-    console.log(e);
-    res = Res(2);
+    console.error(e);
+    ctx.body = Res(2);
+    return;
   }
-
+  const res = { data: reformatArticlesList(data) };
   ctx.body = res;
 };
 
@@ -40,18 +41,26 @@ exports.getArticle = async function (ctx) {
     return;
   }
 
+  let data;
   const ids = Array.from(new Set([...ctx.query.id]));
 
   try {
     await updateViews(ids);
+    data = await getArticle(ids);
   } catch (e) {
-    console.log(e);
+    console.error(e);
     ctx.body = Res(2);
     return;
   }
 
-  const data = await getArticle(ids);
+  // reformat time of data
+  data.forEach((item, index) => {
+    data[index].created_time = item.created_time.toLocaleDateString();
+    data[index].last_modified_time = item.last_modified_time.toLocaleDateString();
+  });
+
   const res = Res({ data });
+  log('getArticle', 'res === \n', res);
   ctx.body = res;
 };
 
@@ -121,7 +130,7 @@ exports.deleteArticle = async (ctx) => {
   try {
     await deleteArticle(id);
   } catch (e) {
-    console.log(e);
+    console.error(e);
     ctx.body = Res({ code: 2, message: e.message });
     return;
   }
