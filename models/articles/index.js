@@ -1,7 +1,9 @@
 const querystring = require('querystring');
 const mysql = require('mysql');
 const db = require('../../db');
-const { addYearLastPost, Log } = require('../../utils');
+const {
+  Log,
+} = require('../../utils');
 
 const log = new Log('models').log;
 
@@ -11,7 +13,7 @@ const log = new Log('models').log;
 
 exports.getAllArticles = async () => {
   const data = await db('SELECT * FROM articles WHERE deleted = 0');
-  return addYearLastPost(data);
+  return data;
 };
 
 /**
@@ -19,8 +21,8 @@ exports.getAllArticles = async () => {
  */
 
 exports.getArticlesList = async () => {
-  const data = await db('SELECT id, title, created_time, views FROM articles WHERE deleted = 0');
-  return addYearLastPost(data);
+  const data = await db('SELECT id, title, created_time, last_modified_time, views FROM articles WHERE deleted = 0');
+  return data;
 };
 
 /**
