@@ -27,7 +27,7 @@ exports.getArticlesList = async function (ctx) {
     ctx.body = Res(2);
     return;
   }
-  const res = { data: reformatArticlesList(data) };
+  const res = Res({ data: reformatArticlesList(data) });
   ctx.body = res;
 };
 
