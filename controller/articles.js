@@ -27,6 +27,26 @@ exports.getArticlesList = async function (ctx) {
     ctx.body = Res(2);
     return;
   }
+
+  data.forEach((item, index) => {
+    data[index].created_time = item.created_time.toLocaleDateString();
+    data[index].last_modified_time = item.last_modified_time.toLocaleDateString();
+  });
+
+  const res = Res({ data });
+  ctx.body = res;
+};
+
+
+exports.getFormatedArticlesList = async function (ctx) {
+  let data;
+  try {
+    data = await getArticlesList();
+  } catch (e) {
+    console.error(e);
+    ctx.body = Res(2);
+    return;
+  }
   const res = Res({ data: reformatArticlesList(data) });
   ctx.body = res;
 };

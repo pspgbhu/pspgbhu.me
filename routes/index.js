@@ -23,6 +23,12 @@ router
   .get('/api/articlesList', getArticlesList)
 
   /**
+   * get article list formated by time
+   */
+
+  .get('/api/getFormatedArticlesList', getArticlesList)
+
+  /**
    * To get an article.
    * Accept multiple id param.
    *
