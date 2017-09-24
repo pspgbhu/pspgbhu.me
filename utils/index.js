@@ -99,10 +99,37 @@ exports.Res = function Res(p) {
   return res;
 };
 
-
+/**
+ * easy to log
+ */
 exports.Log = function (scope) {
   this.scope = scope;
   this.log = function (...p) {
     console.log(`[${scope} >>> ${p.shift()}] `, ...p, '\n');
   };
+};
+
+
+exports.reformatArticlesList = function (rowList) {
+  const list = {};
+  rowList.forEach((item) => {
+    const date = item.created_time;
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1) < 10
+      ? `0${date.getMonth() + 1}`
+      : date.getMonth() + 1;
+
+    item.created_time = item.created_time.toLocaleDateString();
+    item.last_modified_time = item.last_modified_time.toLocaleDateString();
+
+    if (!list[year]) {
+      list[year] = {};
+    }
+    if (!list[year][month]) {
+      list[year][month] = [item];
+      return;
+    }
+    list[year][month].push(item);
+  });
+  return list;
 };
