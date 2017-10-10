@@ -32,6 +32,12 @@ CREATE TABLE `blog`.`categories` (
 	PRIMARY KEY (`id`)
 ) ENGINE=`InnoDB` AUTO_INCREMENT=1;
 
+CREATE TABLE `blog`.`user` (
+	`name` char(30) NOT NULL,
+	`password` varchar(100) NOT NULL,
+	PRIMARY KEY (`name`)
+) ENGINE=`InnoDB` DEFAULT CHARACTER SET utf8;
+
 
 -- CREATE TABLE `blog`.`a_c` (
 -- 	`id` int(9) NOT NULL AUTO_INCREMENT,
