@@ -44,7 +44,7 @@ app.use(async (ctx, next) => {
 // router
 app
   .use(route.routes())
-  .use(route.allowedMethods());
+  .use(route.allowedMethods())
 ;
 
 module.exports = app;
