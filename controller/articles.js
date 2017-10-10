@@ -62,7 +62,9 @@ exports.getArticle = async function (ctx) {
   }
 
   let data;
-  const ids = Array.from(new Set([...ctx.query.id]));
+  const ids = typeof ctx.query.id === 'string'
+    ? ctx.query.id
+    : Array.from(new Set([...ctx.query.id]));
 
   try {
     await updateViews(ids);
